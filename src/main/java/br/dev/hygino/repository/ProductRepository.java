@@ -6,11 +6,11 @@ import br.dev.hygino.model.Category;
 import br.dev.hygino.model.Product;
 
 public final class ProductRepository {
-
 	private final List<Product> products;
 
 	public ProductRepository() {
-		products = new ArrayList<>(Arrays.asList(new Product(1, "O Alienista", 10.0, Category.BOOKS),
+		products = new ArrayList<>(Arrays.asList(
+        new Product(1, "O Alienista", 10.0, Category.BOOKS),
 				new Product(2, "Dom Casmurro", 20.0, Category.BOOKS),
 				new Product(3, "Mouse", 30.0, Category.ELECTRONICS)));
 	}
@@ -34,4 +34,14 @@ public final class ProductRepository {
 	public Optional<Product> getById(int id) {
 		return products.stream().filter(p -> p.getId() == id).findFirst();
 	}
+
+  public List<Product> getProductWithMaxValue(double value){
+    if(value <= 0.0){
+      throw new IllegalArgumentException("O valor deve ser positivo");
+    }
+
+    return products.stream()
+      .filter(p  -> p.getPrice() == value)
+      .toList();
+  }
 }

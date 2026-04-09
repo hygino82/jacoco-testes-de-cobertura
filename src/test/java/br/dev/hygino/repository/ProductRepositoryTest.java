@@ -73,4 +73,13 @@ class ProductRepositoryTest {
 		assertFalse(res);
 		assertEquals(3, repository.getAllProducts().size());
 	}
+
+  @Test
+  //isplayName("Deve lançar exceção quando o valor for negativo")
+  public void getProductWithMaxValueShouldThrowExceptionWhenNegativeValue(){
+    final var res = assertThrows(IllegalArgumentException.class,
+        () -> repository.getProductWithMaxValue(-15.0));
+
+    assertEquals("O valor deve ser positivo" , res.getMessage());
+  }
 }
