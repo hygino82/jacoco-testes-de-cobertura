@@ -41,7 +41,7 @@ public final class ProductRepository {
     }
 
     return products.stream()
-      .filter(p  -> p.getPrice() == value)
+      .filter(p  -> p.getPrice() <= value)
       .toList();
   }
 }

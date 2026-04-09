@@ -2,8 +2,7 @@ package br.dev.hygino.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import br.dev.hygino.model.Category;
 import br.dev.hygino.model.Product;
@@ -75,7 +74,7 @@ class ProductRepositoryTest {
 	}
 
   @Test
-  //isplayName("Deve lançar exceção quando o valor for negativo")
+  @DisplayName("Deve lançar exceção quando o valor for negativo")
   public void getProductWithMaxValueShouldThrowExceptionWhenNegativeValue(){
     final var res = assertThrows(IllegalArgumentException.class,
         () -> repository.getProductWithMaxValue(-15.0));
