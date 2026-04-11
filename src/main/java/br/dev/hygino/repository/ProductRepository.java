@@ -10,7 +10,7 @@ public final class ProductRepository {
 
 	public ProductRepository() {
 		products = new ArrayList<>(Arrays.asList(
-        new Product(1, "O Alienista", 10.0, Category.BOOKS),
+				new Product(1, "O Alienista", 10.0, Category.BOOKS),
 				new Product(2, "Dom Casmurro", 20.0, Category.BOOKS),
 				new Product(3, "Mouse", 30.0, Category.ELECTRONICS)));
 	}
@@ -35,13 +35,13 @@ public final class ProductRepository {
 		return products.stream().filter(p -> p.getId() == id).findFirst();
 	}
 
-  public List<Product> getProductWithMaxValue(double value){
+  public Product[] getProductWithMaxValue(double value){
     if(value <= 0.0){
       throw new IllegalArgumentException("O valor deve ser positivo");
     }
 
     return products.stream()
       .filter(p  -> p.getPrice() <= value)
-      .toList();
+      .toArray(Product[]::new);
   }
 }

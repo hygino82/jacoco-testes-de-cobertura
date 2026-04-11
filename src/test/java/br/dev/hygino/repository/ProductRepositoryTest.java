@@ -81,4 +81,16 @@ class ProductRepositoryTest {
 
     assertEquals("O valor deve ser positivo" , res.getMessage());
   }
+  
+  @Test 
+  public void getProductWithMaxValueShouldReturnArray(){
+	final Product[] expected = {
+			  new Product(1, "O Alienista", 10.0, Category.BOOKS),
+			  new Product(2, "Dom Casmurro", 20.0, Category.BOOKS),
+			  new Product(3, "Mouse", 30.0, Category.ELECTRONICS)};
+	
+	final var res = repository.getProductWithMaxValue(30.0);
+	
+	assertArrayEquals(expected, res);
+  }
 }
