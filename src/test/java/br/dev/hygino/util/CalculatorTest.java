@@ -16,8 +16,10 @@ public class CalculatorTest {
 	@Test
 	@DisplayName("Deve retornar a soma de dois números corretamente")
 	public void testCorrectSum() {
-		double result = calculator.sum(2.5, 3);
-		assertEquals(5.5, result, "A soma de 2 e 3 deveria ser 5");
+		final double firstNumber = 2.5, secondNumber = 3.0, expected = 5.5;
+		double result = calculator.sum(firstNumber, secondNumber);
+		assertEquals(expected, result,
+				() -> String.format("A soma de %f %f não ser igual a %f", firstNumber, secondNumber, expected));
 	}
 
 	@Test
@@ -105,10 +107,29 @@ public class CalculatorTest {
 	public void testZeroPowerPositiveExponent() {
 		// Cenário: 0 elevado a 2 deve ser 0
 		double result = calculator.power(0.0, 2.0);
-		assertEquals(0.0, result, "0 elevado a qualquer expoente positivo deveria ser 0.");
+		assertEquals(0.0, result, () -> "0 elevado a qualquer expoente positivo deveria ser 0.");
 
 		// Outro caso de teste para ter certeza
 		double result2 = calculator.power(0.0, 10.0);
 		assertEquals(0.0, result2, "0 elevado a qualquer expoente positivo deveria ser 0.");
+	}
+
+	@Test
+	@DisplayName("Deve retornar a raiz quadrada de um número corretamente")
+	public void squareRootShouldReturnCorrectValue() {
+		final double value = 81.0, expected = 9.0;
+		final double result = calculator.squareRoot(value);
+		assertEquals(expected, result,
+				() -> String.format("A raiz quadrada de %f deve ser igual a %f", value, expected));
+	}
+
+	@Test
+	@DisplayName("Deve retornar a raiz quadrada de um número corretamente")
+	public void squareRootShouldThowIllegalArgumentExceptionWhenNegativeValue() {
+		final double value = -81.0;
+		final var expected = "A raíz quadrada de um número negativo não existe!";
+		final var result = assertThrows(IllegalArgumentException.class, () -> calculator.squareRoot(value));
+
+		assertEquals(expected, result.getMessage());
 	}
 }

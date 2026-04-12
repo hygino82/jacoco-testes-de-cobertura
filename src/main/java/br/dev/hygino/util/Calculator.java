@@ -30,4 +30,11 @@ public final class Calculator {
 		}
 		return Math.pow(a.doubleValue(), b.doubleValue());
 	}
+
+	public <T extends Number> double squareRoot(T a) {
+		if (a.doubleValue() < 0) {
+			throw new IllegalArgumentException("A raíz quadrada de um número negativo não existe!");
+		}
+		return Math.sqrt(a.doubleValue());
+	}
 }
