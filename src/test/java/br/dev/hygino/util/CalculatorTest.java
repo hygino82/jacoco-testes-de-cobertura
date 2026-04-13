@@ -26,35 +26,35 @@ public class CalculatorTest {
 	@DisplayName("Deve retornar a soma de dois números incorretamente")
 	public void testWrongSum() {
 		double result = calculator.sum(2.5, 3);
-		assertNotEquals(7.5, result, "A soma de 2 e 3 deveria ser 5");
+		assertNotEquals(7.5, result, () -> "A soma de 2 e 3 deveria ser 5");
 	}
 
 	@Test
 	@DisplayName("Deve retornar a subtração de dois números corretamente")
 	public void testCorrectSubtract() {
 		double result = calculator.subtract(5.0, 2.0);
-		assertEquals(3.0, result, "A subtração de 5 e 2 deveria ser 3");
+		assertEquals(3.0, result, () -> "A subtração de 5 e 2 deveria ser 3");
 	}
 
 	@Test
 	@DisplayName("Deve retornar a subtração de dois números incorretamente")
 	public void testWrongSubtract() {
 		double result = calculator.subtract(5.0, 2.0);
-		assertNotEquals(4, result, "A subtração de 5 e 2 deveria ser 3");
+		assertNotEquals(4, result, () -> "A subtração de 5 e 2 deveria ser 3");
 	}
 
 	@Test
 	@DisplayName("Deve retornar a multiplicação de dois números corretamente")
 	public void testCorrectMultiply() {
 		double result = calculator.multiply(4.0, 2.5);
-		assertEquals(10.0, result, "A multiplicação de 4 e 2.5 deveria ser 10");
+		assertEquals(10.0, result, () -> "A multiplicação de 4 e 2.5 deveria ser 10");
 	}
 
 	@Test
 	@DisplayName("Deve retornar a multiplicação de dois números incorretamente")
 	public void testWrongMultiply() {
 		double result = calculator.multiply(4.0, 2.5);
-		assertNotEquals(12.0, result, "A multiplicação de 4 e 2.5 deveria ser 10");
+		assertNotEquals(12.0, result, () -> "A multiplicação de 4 e 2.5 deveria ser 10");
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class CalculatorTest {
 	@DisplayName("Deve retornar a divisão de dois números incorretamente")
 	public void testWrongDivide() {
 		double result = calculator.divide(10.0, 2.0);
-		assertNotEquals(4.0, result, "A divisão de 10 e 2 deveria ser 5");
+		assertNotEquals(4.0, result, () -> "A divisão de 10 e 2 deveria ser 5");
 	}
 
 	@Test
@@ -76,14 +76,14 @@ public class CalculatorTest {
 	public void testDivideByZero() {
 		var res = assertThrows(IllegalArgumentException.class, () -> calculator.divide(10.0, 0.0));
 		assertEquals("Divisão por zero não é permitida.", res.getMessage(),
-				"A mensagem da exceção deveria ser 'Divisão por zero não é permitida.'");
+				() -> "A mensagem da exceção deveria ser 'Divisão por zero não é permitida.'");
 	}
 
 	@Test
 	@DisplayName("Deve retornar a potência de dois números corretamente")
 	public void testCorrectPower() {
 		double result = calculator.power(2.0, 3.0);
-		assertEquals(8.0, result, "A potência de 2 elevado a 3 deveria ser 8");
+		assertEquals(8.0, result, () -> "A potência de 2 elevado a 3 deveria ser 8");
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class CalculatorTest {
 	public void testZeroPowerNonPositive() {
 		var res = assertThrows(IllegalArgumentException.class, () -> calculator.power(0.0, -1.0));
 		assertEquals("0 elevado a um número não positivo não é definido.", res.getMessage(),
-				"A mensagem da exceção deveria ser '0 elevado a um número não positivo não é definido.'");
+				() -> "A mensagem da exceção deveria ser '0 elevado a um número não positivo não é definido.'");
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class CalculatorTest {
 	public void testZeroPowerZero() {
 		var res = assertThrows(IllegalArgumentException.class, () -> calculator.power(0.0, 0.0));
 		assertEquals("0 elevado a um número não positivo não é definido.", res.getMessage(),
-				"A mensagem da exceção deveria ser '0 elevado a um número não positivo não é definido.'");
+				() -> "A mensagem da exceção deveria ser '0 elevado a um número não positivo não é definido.'");
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class CalculatorTest {
 
 		// Outro caso de teste para ter certeza
 		double result2 = calculator.power(0.0, 10.0);
-		assertEquals(0.0, result2, "0 elevado a qualquer expoente positivo deveria ser 0.");
+		assertEquals(0.0, result2, () -> "0 elevado a qualquer expoente positivo deveria ser 0.");
 	}
 
 	@Test
@@ -131,5 +131,45 @@ public class CalculatorTest {
 		final var result = assertThrows(IllegalArgumentException.class, () -> calculator.squareRoot(value));
 
 		assertEquals(expected, result.getMessage());
+	}
+
+	@Test
+	@DisplayName("Deve retornar a média dos valores")
+	public void getMediaShouldReturnMedia() {
+		final double values[] = { 3, 2, 3, 4, 6, 6 };
+		final double expected = 4.0;
+		final var result = calculator.getMedia(values);
+
+		assertEquals(expected, result, () -> String.format("A média dos valores deve ser %f", expected));
+	}
+
+	@Test
+	@DisplayName("Deve lançar uma exceção quando o valor for negativo")
+	public void logarithmShouldThrowIllegalArgumentExceptionWhenNegativeValue() {
+		final double value = -1.0, base = 5.0;
+		final var expected = "O valor do logaritmo deve ser maior que 0!";
+		final var result = assertThrows(IllegalArgumentException.class, () -> calculator.logarithm(base, value));
+
+		assertEquals(expected, result.getMessage());
+	}
+
+	@Test
+	@DisplayName("Deve lançar uma exceção quando a base for menor que zero")
+	public void logarithmShouldThrowIllegalArgumentExceptionWhenBaseLessThanZero() {
+		final double value = 10.0, base = -1.0;
+		final var expected = "A base do logaritmo deve ser maior que 0 e diferente de 1.";
+		final var result = assertThrows(IllegalArgumentException.class, () -> calculator.logarithm(base, value));
+
+		assertEquals(expected, result.getMessage());
+	}
+
+	@Test
+	@DisplayName("Deve retornar o logaritmo de um número corretamente")
+	public void logarithmShouldReturnLogarithm() {
+		final double value = 81.0, base = 3.0, expected = 4.0;
+		final var result = calculator.logarithm(base, value);
+
+		assertEquals(expected, result,
+				() -> String.format("O logaritmo de %f na base %f deve ser %f", value, base, expected));
 	}
 }
